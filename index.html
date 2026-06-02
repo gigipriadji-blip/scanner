@@ -5,7 +5,6 @@
     <title>Scanner Real-time Eksternal</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
-      /* Gunakan CSS yang sama seperti sebelumnya */
       body { font-family: Arial; text-align: center; padding: 20px; }
       #reader { width: 100%; max-width: 500px; margin: 0 auto; }
       #result { margin-top: 20px; padding: 15px; background: #e2f0d9; display: none; }
@@ -17,8 +16,9 @@
     <div id="result">Hasil akan muncul di sini</div>
 
     <script>
-      // GANTI DENGAN URL WEB APP APPS SCRIPT ANDA
-      const APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbylbZbiMpcR4Aee-mHeBij4wWQkBb4q1wxqCvBmErv14CM8UuY0aqpqETdJW3iiqlKN/exec
+      // URL sudah diperbaiki dengan menambahkan tanda kutip
+      const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylbZbiMpcR4Aee-mHeBij4wWQkBb4q1wxqCvBmErv14CM8UuY0aqpqETdJW3iiqlKN/exec";
+      
       function onScanSuccess(decodedText, decodedResult) {
         html5QrcodeScanner.clear(); // Hentikan kamera sementara
         document.getElementById('result').style.display = 'block';
