@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner Real-time Eksternal</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+      /* Gunakan CSS yang sama seperti sebelumnya */
+      body { font-family: Arial; text-align: center; padding: 20px; }
+      #reader { width: 100%; max-width: 500px; margin: 0 auto; }
+      #result { margin-top: 20px; padding: 15px; background: #e2f0d9; display: none; }
+    </style>
+  </head>
+  <body>
+    <h2>Scanner Real-time</h2>
+    <div id="reader"></div>
+    <div id="result">Hasil akan muncul di sini</div>
+
+    <script>
+      // GANTI DENGAN URL WEB APP APPS SCRIPT ANDA
+      const APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbylbZbiMpcR4Aee-mHeBij4wWQkBb4q1wxqCvBmErv14CM8UuY0aqpqETdJW3iiqlKN/exec
+      function onScanSuccess(decodedText, decodedResult) {
+        html5QrcodeScanner.clear(); // Hentikan kamera sementara
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result').innerText = "Mengirim data: " + decodedText;
+
+        // Kirim data ke Apps Script via POST request
+        fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify({ hasilScan: decodedText })
+        })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('result').innerText = "Sukses: " + data.data;
+          setTimeout(() => location.reload(), 3000); // Restart scanner
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = "Gagal mengirim data.";
+        });
+      }
+
+      function onScanFailure(error) { /* abaikan error ini */ }
+
+      let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: {width: 250, height: 250} }, false);
+      html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+  </body>
+</html>
